@@ -29,7 +29,7 @@ spec:
         emptyDir: {}
       containers:
       - name: seldon-server
-        image: seldonio/seldon-server:1.4.8
+        image: seldonio/seldon-server:1.4.7
         command:
         - /home/seldon/start-server.sh
         ports:

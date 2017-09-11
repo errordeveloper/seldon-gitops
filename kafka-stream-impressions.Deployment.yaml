@@ -22,7 +22,7 @@ spec:
         - java
         - -Xmx200M
         - -cp
-        - seldon-stream-1.4.8-jar-with-dependencies.jar
+        - seldon-stream-1.4.7-jar-with-dependencies.jar
         - io.seldon.stream.analytics.ImpressionsToInfluxDb
         - --topic
         - ctr_full
@@ -36,7 +36,7 @@ spec:
         - impressions
         - --influx-measurement-requests
         - requests
-        image: seldonio/seldon-stream:1.4.8_v1
+        image: seldonio/seldon-stream:1.4.7_v1
         imagePullPolicy: IfNotPresent
         name: kafka-streaming-impressions
         terminationMessagePath: /dev/termination-log
