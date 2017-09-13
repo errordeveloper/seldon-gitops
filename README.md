@@ -1,5 +1,7 @@
 # GitOps demo for Tensorflow/Seldon meetup
 
+> *Note:* _this is work-in-progress_
+
 Import manifests from `seldon-server` (need to have it checked-out in this dir):
 ```
 ./scripts/import-infra
