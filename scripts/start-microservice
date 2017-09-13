@@ -1,0 +1,3 @@
+#!/bin/bash -eux
+
+env PATH="${PWD}/scripts/:${PATH}" "${SELDON_SERVER:-"./seldon-server"}/kubernetes/bin/start-microservice" "$@"
