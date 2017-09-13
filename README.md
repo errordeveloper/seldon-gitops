@@ -40,15 +40,24 @@ Check service status:
 kubectl get service,deployment tensorflow-deep-mnist
 ```
 
-There is no external IP, let's make it happend with GitOps:
+
+Start the front-end app:
 ```
-kubectl get service/tensorflow-deep-mnist --output=yaml --export=true > apps/tensorflow-deep-mnist.Service.yaml
+./scripts/start-front-end
+```
+
+***This just created a deployment and a service in a very ad-hoc style, clearly we want this production-ready with GitOps!***
+
+We can export & check manifests like this:
+```
 kubectl get deployment/tensorflow-deep-mnist --output=yaml --export=true > apps/tensorflow-deep-mnist.Deployment.yaml
+kubectl get service/tensorflow-deep-mnist --output=yaml --export=true > apps/tensorflow-deep-mnist.Service.yaml
+kubectl get deployment/deep-mnist-webapp --output=yaml --export=true > apps/deep-mnist-webapp.Deployment.yaml
+kubectl get service/deep-mnist-webapp --output=yaml --export=true > apps/deep-mnist-webapp.Service.yaml
 ```
 
 Now lets's review this, we certainly need to adjust the service type...
 ```
-$EDITOR apps/tensorflow-deep-mnist.Service.yaml
 git add apps
 git commit -m 'gitOps := "AWESOME"'
 ```
