@@ -1,0 +1,24 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: seldon-server
+  creationTimestamp: null
+  labels:
+    name: seldon-server
+    service: seldon
+spec:
+  ports:
+  - name: api
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30015
+  - name: rpc
+    protocol: TCP
+    port: 5000
+    targetPort: 5000
+    nodePort: 30017
+  selector:
+    name: seldon-server
+  type: NodePort
+  sessionAffinity: None

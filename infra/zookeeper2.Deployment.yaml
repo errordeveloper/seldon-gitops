@@ -1,0 +1,39 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: zookeeper2
+  labels:
+    name: zookeeper2
+    service: seldon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      server-id: '2'
+  template:
+    metadata:
+      name: zookeeper-2
+      creationTimestamp: null
+      labels:
+        name: zookeeper2
+        server-id: '2'
+        service: seldon
+    spec:
+      containers:
+      - name: server
+        image: seldonio/zookeeper-k8s:1.0
+        ports:
+        - containerPort: 2181
+          protocol: TCP
+        - containerPort: 2888
+          protocol: TCP
+        - containerPort: 3888
+          protocol: TCP
+        env:
+        - name: SERVER_ID
+          value: '2'
+        - name: MAX_SERVERS
+          value: '3'
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        imagePullPolicy: IfNotPresent
