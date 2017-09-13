@@ -5,4 +5,5 @@ git commit -a -m 'All clean'
 git push
 
 kubectl delete -f apps -f infra || true
+kubectl delete deployment/tensorflow-deep-mnist service/tensorflow-deep-mnist || true
 rm -rf apps infra
