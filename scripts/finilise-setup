@@ -20,7 +20,5 @@ seldod_server_pod_ready() {
     | grep -q 'Initialized=True;Ready=True;PodScheduled=True;'
 }
 
-#kubectl delete pods -l name=seldon-server
-#sleep 10
 until seldod_server_pod_ready ; do sleep 1 ; done
 do_setup
