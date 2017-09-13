@@ -22,6 +22,7 @@ Add the Deep MNIST jobs:
 git add apps
 git commit -m 'Deploy some app workloads!'
 git push
+kubectl get jobs -w -o wide
 ```
 
 Create Seldon client:
