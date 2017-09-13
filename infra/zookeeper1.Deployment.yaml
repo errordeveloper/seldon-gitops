@@ -1,6 +1,8 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
+  annotations:
+    flux.weave.works/locked: "true"
   name: zookeeper1
   labels:
     name: zookeeper1
