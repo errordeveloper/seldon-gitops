@@ -34,3 +34,21 @@ Deploy the example TensorFlow app:
 ```
 ./scripts/start-microservice --type prediction --client deep_mnist_client -p tensorflow-deep-mnist /seldon-data/seldon-models/tensorflow_deep_mnist/1/ rest 1.0
 ```
+
+Check service status:
+```
+kubectl get service,deployment tensorflow-deep-mnist
+```
+
+There is no external IP, let's make it happend with GitOps:
+```
+kubectl get service/tensorflow-deep-mnist --output=yaml --export=true > apps/tensorflow-deep-mnist.Service.yaml
+kubectl get deployment/tensorflow-deep-mnist --output=yaml --export=true > apps/tensorflow-deep-mnist.Deployment.yaml
+```
+
+Now lets's review this, we certainly need to adjust the service type...
+```
+$EDITOR apps/tensorflow-deep-mnist.Service.yaml
+git add apps
+git commit -m 'gitOps := "AWESOME"'
+```
