@@ -22,4 +22,7 @@ git commit -m 'Deploy some app workloads!'
 git push
 ```
 
-
+Create Seldon client:
+```
+./scripts/seldon-cli client --action setup --db-name ClientDB --client-name deep_mnist_client
+```

@@ -1,6 +1,8 @@
 #!/bin/bash -eux
 
+git rm --cached -r apps infra
+git commit -a -m 'All clean'
+git push
+
 kubectl delete -f apps -f infra || true
 rm -rf apps infra
-
-git commit -a -m 'All clean'
