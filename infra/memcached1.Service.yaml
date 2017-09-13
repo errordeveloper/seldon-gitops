@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: memcached1
+  labels:
+    app: memcache
+    name: memcached1
+    service: seldon
+spec:
+  ports:
+  - protocol: TCP
+    port: 11211
+    targetPort: 11211
+  selector:
+    name: memcached1
+  type: ClusterIP
+  sessionAffinity: None
