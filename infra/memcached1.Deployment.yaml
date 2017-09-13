@@ -1,0 +1,32 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: memcached1
+  labels:
+    name: memcached1
+    service: seldon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: memcached1
+  template:
+    metadata:
+      name: memcached1
+      creationTimestamp: null
+      labels:
+        name: memcached1
+    spec:
+      containers:
+      - name: memcached1
+        image: seldonio/memcached:0.1
+        command:
+        - memcached
+        - -m
+        - '512'
+        resources:
+          requests:
+            memory: 260Mi
+        ports:
+        - containerPort: 11211
+          protocol: TCP
