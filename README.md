@@ -29,3 +29,8 @@ Create Seldon client:
 ```
 ./scripts/seldon-cli client --action setup --db-name ClientDB --client-name deep_mnist_client
 ```
+
+Deploy the example TensorFlow app:
+```
+./scripts/start-microservice --type prediction --client deep_mnist_client -p tensorflow-deep-mnist /seldon-data/seldon-models/tensorflow_deep_mnist/1/ rest 1.0
+```
