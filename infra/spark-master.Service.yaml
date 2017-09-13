@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spark-master
+  labels:
+    service: seldon
+  creationTimestamp: null
+spec:
+  ports:
+  - protocol: TCP
+    port: 7077
+    targetPort: 7077
+  selector:
+    component: spark-master
+  type: ClusterIP
+  sessionAffinity: None
