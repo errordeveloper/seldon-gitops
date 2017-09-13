@@ -56,16 +56,6 @@ spec:
           mountPath: /home/seldon/logs/actions
         - name: tomcat-logs
           mountPath: /home/seldon/logs/tomcat
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-          periodSeconds: 15
-          successThreshold: 1
-          failureThreshold: 2
         terminationMessagePath: /dev/termination-log
         imagePullPolicy: IfNotPresent
       - name: td-agent
