@@ -1,0 +1,1 @@
+{"jobID":"46c64104-8266-00d6-959a-f9d404d7312c","spec":{"type":"policy","cause":{"Message":"","User":"ilya@weave.works"},"spec":{"default/zookeeper-1":{"add":{"locked":"true"},"remove":null}}},"result":null}
