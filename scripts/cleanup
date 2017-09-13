@@ -1,0 +1,6 @@
+#!/bin/bash -eux
+
+kubectl delete -f apps -f infra
+rm -rf apps infra
+
+git commit 'All clean'
