@@ -1,9 +1,9 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [
-           'pull',
-           'gcr.io/$PROJECT_ID/seldon-core-python-model-example'
-        ]
+#- name: 'gcr.io/cloud-builders/docker'
+#  args: [
+#           'pull',
+#           'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
+#        ]
 - name: 'gcr.io/cloud-builders/docker'
   args: [
            'build',
@@ -18,3 +18,4 @@ steps:
 images:
 - 'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
 - 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+timeout: 30m
