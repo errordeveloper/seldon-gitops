@@ -1,0 +1,20 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+           'pull',
+           'gcr.io/$PROJECT_ID/seldon-core-python-model-example'
+        ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+           'build',
+           '--cache-from=gcr.io/$PROJECT_ID/$REPO_NAME:latest',
+           '--tag=gcr.io/$PROJECT_ID/$REPO_NAME:latest',
+           '--tag=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA',
+           '--build-arg=IMAGE_REPO=gcr.io/$PROJECT_ID/$REPO_NAME',
+           '--build-arg=IMAGE_VERSION=$COMMIT_SHA',
+           '--build-arg=MODEL_NAME=IrisClassifier',
+           '.'
+        ]
+images:
+- 'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
+- 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
