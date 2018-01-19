@@ -1,9 +1,0 @@
-#!/bin/bash -eux
-
-creds="$(./scripts/seldon-cli keys --client-name deep_mnist_client --scope all | tail -n1)"
-
-key="$(echo "${creds}" | jq -r '.[]|.key')"
-secret="$(echo "${creds}" | jq -r '.[]|.secret')"
-server="$(kubectl get svc seldon-server -o jsonpath='{.spec.clusterIP}')"
-kubectl run deep-mnist-webapp --image=seldonio/deep_mnist_webapp:1.2 --port=80 --command -- "/run_webapp.sh" "${server-ip}" "${key}" "${secret}"
-kubectl expose deployment/deep-mnist-webapp --type="LoadBalancer"
