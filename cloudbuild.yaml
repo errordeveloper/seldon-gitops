@@ -2,23 +2,31 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [
            'pull',
-           'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
+           'gcr.io/$PROJECT_ID/seldon-core-python-example/build:latest',
         ]
 - name: 'gcr.io/cloud-builders/docker'
   args: [
            'build',
-           '--cache-from=gcr.io/$PROJECT_ID/$REPO_NAME:latest',
-           '--tag=gcr.io/$PROJECT_ID/$REPO_NAME:latest',
-           '--tag=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA',
-           '--build-arg=IMAGE_REPO=gcr.io/$PROJECT_ID/$REPO_NAME',
+           '--cache-from=gcr.io/$PROJECT_ID/seldon-core-python-example/build:latest',
+           '--tag=gcr.io/$PROJECT_ID/seldon-core-python-example/build:latest',
+           '--tag=gcr.io/$PROJECT_ID/seldon-core-python-example/build:$COMMIT_SHA',
+           './build',
+        ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+           'build',
+           ## For some reason `--cache-from` cannot really be used here, but this step is fast-enough already
+           '--tag=gcr.io/$PROJECT_ID/seldon-core-python-example/model:latest',
+           '--tag=gcr.io/$PROJECT_ID/seldon-core-python-example/model:$COMMIT_SHA',
+           '--build-arg=BUILD_IMAGE=gcr.io/$PROJECT_ID/seldon-core-python-example/build:$COMMIT_SHA',
+           '--build-arg=IMAGE_REPO=gcr.io/$PROJECT_ID/seldon-core-python-example/model',
            '--build-arg=IMAGE_VERSION=$COMMIT_SHA',
            '--build-arg=MODEL_NAME=IrisClassifier',
-           '.'
+           './model',
         ]
 images:
-- 'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
-- 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-# Re-building Python dependencies can take about 30min, but for some reason
-# giving the builder 8 cores with options: {machineType: 'N1_HIGHCPU_8'}
-# only wins a few minutes
+- 'gcr.io/$PROJECT_ID/seldon-core-python-example/build:latest'
+- 'gcr.io/$PROJECT_ID/seldon-core-python-example/build:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/seldon-core-python-example/model:latest'
+- 'gcr.io/$PROJECT_ID/seldon-core-python-example/model:$COMMIT_SHA'
 timeout: '40m'
