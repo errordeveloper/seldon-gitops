@@ -1,0 +1,11 @@
+.dockerignore
+.git
+.gitignore
+Dockerfile
+Makefile
+README.md
+cloudbuild.yaml
+seldon-deployment.yaml
+update-manifest.sh
+notes.md
+seldon-core
