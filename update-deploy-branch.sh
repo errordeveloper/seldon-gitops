@@ -1,3 +1,19 @@
+#!/bin/sh -eux
+
+image_tag="$(git rev-parse @)"
+
+image_name="gcr.io/dx-general/seldon-core-python-example/model"
+
+gcloud container images list-tags --format=json "${image_name}" \
+  | jq -r '.[].tags | .[]' \
+  | grep -c "${image_tag}" \
+  || exit 2
+
+image="${image_name}:${image_tag}"
+
+git checkout flux-deploy
+
+cat > seldon-deployment.yaml <<EOF
 apiVersion: machinelearning.seldon.io/v1alpha1
 kind: SeldonDeployment
 metadata:
@@ -7,13 +23,13 @@ metadata:
 spec:
   name: sklearn-iris-deployment
   annotations:
-    deployment_version: "58bb3596ea36cbd262cb6f35cdbbd5c5d7ded8e8"
+    deployment_version: "${image_tag}"
     project_name: 'Iris classification'
   oauth_key: oauth-key
   oauth_secret: oauth-secret
   predictors:
   - annotations:
-      predictor_version: "58bb3596ea36cbd262cb6f35cdbbd5c5d7ded8e8"
+      predictor_version: "${image_tag}"
     componentSpec:
       metadata:
         labels:
@@ -21,7 +37,7 @@ spec:
       spec:
         containers:
         - name: sklearn-iris-classifier
-          image: "gcr.io/dx-general/seldon-core-python-model-example:58bb3596ea36cbd262cb6f35cdbbd5c5d7ded8e8"
+          image: "${image}"
           env:
           - name: PREDICTIVE_UNIT_SERVICE_PORT
             value: '9000'
@@ -62,3 +78,10 @@ spec:
       type: MODEL
     name: sklearn-iris-predictor
     replicas: 1
+EOF
+
+git add seldon-deployment.yaml
+rc=0
+git commit -m "Update image to ${image}" && git push origin flux-deploy || rc=1
+git checkout master
+exit $rc
