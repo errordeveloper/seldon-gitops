@@ -41,13 +41,15 @@ RUN apk add --no-cache --initdb --root /out \
 ## Remove package manager residuals
 RUN rm -rf /out/etc/apk /out/lib/apk /out/var/cache
 
-## Enter model source tree and install all Python depenendcies
-COPY . /src
+## Copy requirements.txt first and install Python depenendcies,
+## to optimise build times by using cache when dependencies
+## didn't change
+RUN mkdir /src
 WORKDIR /src
-## TODO this does take a while to build, maybe a good idea to
-## put all related build dependencies into a separate public image
+COPY requirements.txt /src
 RUN pip install --requirement requirements.txt
-## Train the model
+## Copy the rest of the model source tree and train the model
+COPY . /src
 RUN python train_iris.py
 
 ## Copy source code and Python dependencies to the saging root tree
