@@ -14,8 +14,14 @@ steps:
         ]
 - name: 'gcr.io/cloud-builders/docker'
   args: [
+           'pull',
+           'gcr.io/$PROJECT_ID/seldon-core-python-example/model:latest',
+        ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
            'build',
-           ## For some reason `--cache-from` cannot really be used here, but this step is fast-enough already
+           ## `--cache-from` only works in the last stage of the build, see https://github.com/moby/moby/issues/34715
+           '--cache-from=gcr.io/$PROJECT_ID/seldon-core-python-example/model:latest',
            '--tag=gcr.io/$PROJECT_ID/seldon-core-python-example/model:latest',
            '--tag=gcr.io/$PROJECT_ID/seldon-core-python-example/model:$COMMIT_SHA',
            '--build-arg=BUILD_IMAGE=gcr.io/$PROJECT_ID/seldon-core-python-example/build:$COMMIT_SHA',
