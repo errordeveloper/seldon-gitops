@@ -1,9 +1,9 @@
 steps:
-#- name: 'gcr.io/cloud-builders/docker'
-#  args: [
-#           'pull',
-#           'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
-#        ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+           'pull',
+           'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
+        ]
 - name: 'gcr.io/cloud-builders/docker'
   args: [
            'build',
@@ -18,6 +18,7 @@ steps:
 images:
 - 'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
 - 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-timeout: '30m'
-options:
-  machineType: 'N1_HIGHCPU_8'
+# Re-building Python dependencies can take about 30min, but for some reason
+# giving the builder 8 cores with options: {machineType: 'N1_HIGHCPU_8'}
+# only wins a few minutes
+timeout: '40m'
