@@ -1,25 +1,14 @@
 apiVersion: machinelearning.seldon.io/v1alpha1
 kind: SeldonDeployment
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"machinelearning.seldon.io/v1alpha1","kind":"SeldonDeployment","metadata":{"name":"seldon-deployment-example","namespace":"default","selfLink":"/apis/machinelearning.seldon.io/v1alpha1/namespaces/default/seldondeployments/seldon-deployment-example","uid":"aad5237c-fcfc-11e7-add8-025000000001","generation":0,"creationTimestamp":"2018-01-19T09:39:38Z","labels":{"app":"seldon"},"clusterName":""},"spec":{"name":"sklearn-iris-deployment","predictors":[{"name":"sklearn-iris-predictor","graph":{"name":"sklearn-iris-classifier","type":"MODEL","endpoint":{"service_host":"0.0.0.0","service_port":9000,"type":"REST"}},"componentSpec":{"metadata":{"labels":{"seldon-app":"sklearn-iris-deployment"}},"spec":{"containers":[{"name":"sklearn-iris-classifier","image":"seldonio/irisclassifier:0.1","ports":[{"name":"http","containerPort":9000}],"env":[{"name":"PREDICTIVE_UNIT_SERVICE_PORT","value":"9000"},{"name":"PREDICTIVE_UNIT_PARAMETERS","value":"[]"}],"resources":{"requests":{"memory":"1Mi"}},"livenessProbe":{"handler":{"tcpSocket":{"port":"http"}},"initialDelaySeconds":10,"periodSeconds":5},"readinessProbe":{"handler":{"tcpSocket":{"port":"http"}},"initialDelaySeconds":10,"periodSeconds":5},"lifecycle":{"preStop":{"exec":{"command":["/bin/sh","-c","/bin/sleep 5"]}}},"imagePullPolicy":"IfNotPresent"}],"terminationGracePeriodSeconds":20}},"replicas":1,"annotations":{"predictor_version":"0.1"}}],"oauth_key":"oauth-key","oauth_secret":"oauth-secret","annotations":{"deployment_version":"0.1","project_name":"Iris classification"}},"status":{"predictorStatus":[{"name":"sklearn-iris-deployment-sklearn-iris-predictor","replicas":1,"replicasAvailable":1}]}}
-  clusterName: ""
-  creationTimestamp: ""
-  deletionTimestamp: null
-  generation: 0
+  name: seldon-deployment-example
   labels:
     app: seldon
-  name: seldon-deployment-example
-  namespace: ""
-  resourceVersion: ""
-  selfLink: /apis/machinelearning.seldon.io/v1alpha1/namespaces/default/seldondeployments/seldon-deployment-example
-  uid: ""
 spec:
+  name: sklearn-iris-deployment
   annotations:
     deployment_version: "0.1"
-    project_name: Iris classification
-  name: sklearn-iris-deployment
+    project_name: 'Iris classification'
   oauth_key: oauth-key
   oauth_secret: oauth-secret
   predictors:
@@ -31,31 +20,30 @@ spec:
           seldon-app: sklearn-iris-deployment
       spec:
         containers:
-        - env:
+        - name: sklearn-iris-classifier
+          image: seldonio/irisclassifier:0.1
+          env:
           - name: PREDICTIVE_UNIT_SERVICE_PORT
-            value: "9000"
+            value: '9000'
           - name: PREDICTIVE_UNIT_PARAMETERS
             value: '[]'
-          image: seldonio/irisclassifier:0.1
-          imagePullPolicy: IfNotPresent
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                - /bin/sh
-                - -c
-                - /bin/sleep 5
-          livenessProbe:
+          ports:
+          - containerPort: 9000
+            name: http
+          readinessProbe:
             handler:
               tcpSocket:
                 port: http
             initialDelaySeconds: 10
             periodSeconds: 5
-          name: sklearn-iris-classifier
-          ports:
-          - containerPort: 9000
-            name: http
-          readinessProbe:
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - '/bin/sh'
+                - '-c'
+                - '/bin/sleep 5'
+          livenessProbe:
             handler:
               tcpSocket:
                 port: http
@@ -74,8 +62,3 @@ spec:
       type: MODEL
     name: sklearn-iris-predictor
     replicas: 1
-status:
-  predictorStatus:
-  - name: sklearn-iris-deployment-sklearn-iris-predictor
-    replicas: 1
-    replicasAvailable: 1
