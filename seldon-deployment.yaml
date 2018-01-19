@@ -7,13 +7,13 @@ metadata:
 spec:
   name: sklearn-iris-deployment
   annotations:
-    deployment_version: "f1994522726156f30b9405d4ac109cd983d5dfd6"
+    deployment_version: "2e693eb2fd3af57a823894e20fef10c714eb54db"
     project_name: 'Iris classification'
   oauth_key: oauth-key
   oauth_secret: oauth-secret
   predictors:
   - annotations:
-      predictor_version: "f1994522726156f30b9405d4ac109cd983d5dfd6"
+      predictor_version: "2e693eb2fd3af57a823894e20fef10c714eb54db"
     componentSpec:
       metadata:
         labels:
@@ -21,7 +21,7 @@ spec:
       spec:
         containers:
         - name: sklearn-iris-classifier
-          image: "gcr.io/dx-general/seldon-core-python-model-example:f1994522726156f30b9405d4ac109cd983d5dfd6"
+          image: "gcr.io/dx-general/seldon-core-python-model-example:2e693eb2fd3af57a823894e20fef10c714eb54db"
           env:
           - name: PREDICTIVE_UNIT_SERVICE_PORT
             value: '9000'
