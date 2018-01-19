@@ -1,3 +1,3 @@
 # GitOps demo for Seldon Core
 
-> *Note:* _this is work-in-progress_
+This is a deployment branch.
