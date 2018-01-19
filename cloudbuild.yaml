@@ -18,4 +18,6 @@ steps:
 images:
 - 'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
 - 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-timeout: 30m
+timeout: '30m'
+options:
+  machineType: 'N1_HIGHCPU_8'
